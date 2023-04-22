@@ -1,5 +1,6 @@
 package jp.co.axa.apidemo.controllers;
 
+import io.swagger.annotations.*;
 import jp.co.axa.apidemo.common.RequestResult;
 import jp.co.axa.apidemo.common.ResultCodeEnum;
 import jp.co.axa.apidemo.entities.Employee;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@Api(tags = "api for employees management")
 @RestController
 @RequestMapping("/api/v1")
 public class EmployeeController {
@@ -15,6 +17,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    @ApiOperation(value = "get all employees")
     @GetMapping("/employees")
     public RequestResult getEmployees() {
         List<Employee> employees;
@@ -26,6 +29,12 @@ public class EmployeeController {
         }
     }
 
+    @ApiOperation(value = "get the employee by Id")
+    @ApiImplicitParams(@ApiImplicitParam(name = "employeeId"
+        , value = "the Id of the employee you want to retrieve"
+        , required = true
+        , dataType = "long"
+        , paramType = "path"))
     @GetMapping("/employees/{employeeId}")
     public RequestResult getEmployee(@PathVariable(name="employeeId")Long employeeId) {
         Employee employee = employeeService.getEmployee(employeeId);
@@ -36,13 +45,21 @@ public class EmployeeController {
         }
     }
 
+    @ApiOperation(value = "create an employee")
     @PostMapping("/employees")
-    public RequestResult saveEmployee(Employee employee){
+    public RequestResult saveEmployee(@RequestBody @ApiParam(value = "employee's information you want to create"
+            , required = true) Employee employee){
         employeeService.saveEmployee(employee);
         System.out.println("Employee Saved Successfully");
         return new RequestResult(null);
     }
 
+    @ApiOperation(value = "delete an employee by Id")
+    @ApiImplicitParams(@ApiImplicitParam(name = "employeeId"
+        , value = "the Id of the employee you want to delete"
+        , required = true
+        , dataType = "long"
+        , paramType = "path"))
     @DeleteMapping("/employees/{employeeId}")
     public RequestResult deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
         employeeService.deleteEmployee(employeeId);
@@ -50,8 +67,16 @@ public class EmployeeController {
         return new RequestResult(null);
     }
 
+    @ApiOperation(value = "update an employee by Id")
+    @ApiImplicitParams(@ApiImplicitParam(name = "employeeId"
+        , value = "the Id of the employee you want to retrieve"
+        , required = true
+        , dataType = "long"
+        , paramType = "path"))
     @PutMapping("/employees/{employeeId}")
-    public RequestResult updateEmployee(@RequestBody Employee employee,
+    public RequestResult updateEmployee(
+            @RequestBody @ApiParam(value = "employee's new information you want to update"
+                    , required = true) Employee employee,
                                @PathVariable(name="employeeId")Long employeeId){
         Employee emp = employeeService.getEmployee(employeeId);
         if(emp != null){
