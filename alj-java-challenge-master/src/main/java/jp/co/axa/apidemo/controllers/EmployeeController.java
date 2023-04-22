@@ -1,10 +1,11 @@
 package jp.co.axa.apidemo.controllers;
 
+import jp.co.axa.apidemo.common.RequestResult;
+import jp.co.axa.apidemo.common.ResultCodeEnum;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -19,36 +20,48 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public List<Employee> getEmployees() {
-        List<Employee> employees = employeeService.retrieveEmployees();
-        return employees;
+    public RequestResult getEmployees() {
+        List<Employee> employees;
+        employees = employeeService.retrieveEmployees();
+        if (employees.isEmpty()) {
+            return new RequestResult(ResultCodeEnum.EMPTY_RESULT, employees);
+        } else {
+            return new RequestResult(employees);
+        }
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee getEmployee(@PathVariable(name="employeeId")Long employeeId) {
-        return employeeService.getEmployee(employeeId);
+    public RequestResult getEmployee(@PathVariable(name="employeeId")Long employeeId) {
+        Employee employee = employeeService.getEmployee(employeeId);
+        if (null == employee) {
+            return new RequestResult(ResultCodeEnum.EMPTY_RESULT, employee);
+        } else {
+            return new RequestResult(employee);
+        }
     }
 
     @PostMapping("/employees")
-    public void saveEmployee(Employee employee){
+    public RequestResult saveEmployee(Employee employee){
         employeeService.saveEmployee(employee);
         System.out.println("Employee Saved Successfully");
+        return new RequestResult(null);
     }
 
     @DeleteMapping("/employees/{employeeId}")
-    public void deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
+    public RequestResult deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
         employeeService.deleteEmployee(employeeId);
         System.out.println("Employee Deleted Successfully");
+        return new RequestResult(null);
     }
 
     @PutMapping("/employees/{employeeId}")
-    public void updateEmployee(@RequestBody Employee employee,
+    public RequestResult updateEmployee(@RequestBody Employee employee,
                                @PathVariable(name="employeeId")Long employeeId){
         Employee emp = employeeService.getEmployee(employeeId);
         if(emp != null){
             employeeService.updateEmployee(employee);
         }
-
+        return new RequestResult(null);
     }
 
 }
