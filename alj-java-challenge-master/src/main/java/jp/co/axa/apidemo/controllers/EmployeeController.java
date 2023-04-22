@@ -34,7 +34,7 @@ public class EmployeeController {
     public RequestResult getEmployee(@PathVariable(name="employeeId")Long employeeId) {
         Employee employee = employeeService.getEmployee(employeeId);
         if (null == employee) {
-            return new RequestResult(ResultCodeEnum.EMPTY_RESULT, employee);
+            return new RequestResult(ResultCodeEnum.EMPTY_RESULT, null);
         } else {
             return new RequestResult(employee);
         }
