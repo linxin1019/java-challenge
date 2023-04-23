@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @Slf4j
@@ -18,10 +20,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private EntityManager entityManager;
 
-    public List<Employee> retrieveEmployees() {
-        List<Employee> employees = employeeRepository.findAll();
-        log.info("retrieveEmployees result size: {} ", employees.size());
+    public Page<Employee> retrieveEmployees(PageRequest pageRequest) {
+        Page<Employee> employees = employeeRepository.findAll(pageRequest);
+        log.info("retrieveEmployees result size: {} ", employees.getSize());
         return employees;
     }
 

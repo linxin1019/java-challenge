@@ -1,14 +1,16 @@
 package jp.co.axa.apidemo.controllers;
 
 import io.swagger.annotations.*;
+import jp.co.axa.apidemo.common.PageInfo;
 import jp.co.axa.apidemo.common.RequestResult;
 import jp.co.axa.apidemo.common.ResultCodeEnum;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.services.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @Slf4j
 @Api(tags = "api for employees management")
@@ -19,13 +21,14 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @ApiOperation(value = "get all employees")
-    @GetMapping("/employees")
-    public RequestResult getEmployees() {
-        List<Employee> employees;
-        employees = employeeService.retrieveEmployees();
+    @ApiOperation(value = "get all employees with pagination")
+    @PostMapping("/getEmployees")
+    public RequestResult getEmployees(@RequestBody PageInfo pageInfo) {
+        Page<Employee> employees;
+        employees = employeeService.retrieveEmployees(PageRequest.of(pageInfo.getPage(), pageInfo.getSize()));
         if (employees.isEmpty()) {
-            return new RequestResult(ResultCodeEnum.EMPTY_RESULT, employees);
+            log.info("getEmployees result empty. pageInfo: {}", pageInfo);
+            return new RequestResult(ResultCodeEnum.EMPTY_RESULT, null);
         } else {
             return new RequestResult(employees);
         }
