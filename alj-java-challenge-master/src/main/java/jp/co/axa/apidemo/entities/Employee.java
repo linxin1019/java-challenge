@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Table(name="EMPLOYEE")
 public class Employee {
 
-    @ApiModelProperty(value = "unique id of employee, auto-generated")
+    @ApiModelProperty(value = "id of employee, required when update, not required when create")
     @Getter
     @Setter
     @Id
