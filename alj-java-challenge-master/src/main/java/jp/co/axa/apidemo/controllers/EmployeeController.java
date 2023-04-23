@@ -64,10 +64,19 @@ public class EmployeeController {
         , dataType = "long"
         , paramType = "path"))
     @DeleteMapping("/employees/{employeeId}")
-    public RequestResult deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
-        employeeService.deleteEmployee(employeeId);
-        log.info("Employee Deleted Successfully. Id: {}", employeeId);
-        return new RequestResult(null);
+    public RequestResult deleteEmployee(@PathVariable(name="employeeId")Long employeeId) {
+        Employee emp = employeeService.getEmployee(employeeId);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("id = ");
+        stringBuilder.append(employeeId);
+        if (emp == null) {
+            log.info("Employee to be deleted not exist. Id: {}", employeeId);
+            return new RequestResult(ResultCodeEnum.DELETE_TARGET_NOT_EXIST, stringBuilder);
+        } else {
+            employeeService.deleteEmployee(employeeId);
+            log.info("Employee Deleted Successfully. Id: {}", employeeId);
+            return new RequestResult(null);
+        }
     }
 
     @ApiOperation(value = "update an employee by Id")

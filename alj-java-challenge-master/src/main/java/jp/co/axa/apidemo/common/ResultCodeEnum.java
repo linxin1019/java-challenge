@@ -16,6 +16,7 @@ public enum ResultCodeEnum {
     UPDATE_FAILURE(2, "update failure"),
     DELETE_FAILURE(3, "delete failure"),
     UPDATE_TARGET_NOT_EXIST(4, "update target not exist"),
+    DELETE_TARGET_NOT_EXIST(5, "delete target not exist"),
     INTERNAL_ERROR(500, "internal error");
 
     private Integer code;
