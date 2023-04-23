@@ -2,6 +2,7 @@ package jp.co.axa.apidemo.entities;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 
 @ApiModel(value = "employee object")
 @Entity
+@Data
 @Table(name="EMPLOYEE")
 public class Employee {
 

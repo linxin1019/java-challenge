@@ -5,10 +5,12 @@ import jp.co.axa.apidemo.common.RequestResult;
 import jp.co.axa.apidemo.common.ResultCodeEnum;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.services.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@Slf4j
 @Api(tags = "api for employees management")
 @RestController
 @RequestMapping("/api/v1")
@@ -39,6 +41,7 @@ public class EmployeeController {
     public RequestResult getEmployee(@PathVariable(name="employeeId")Long employeeId) {
         Employee employee = employeeService.getEmployee(employeeId);
         if (null == employee) {
+            log.info("Employee not exist. Id: {}", employeeId);
             return new RequestResult(ResultCodeEnum.EMPTY_RESULT, null);
         } else {
             return new RequestResult(employee);
@@ -49,8 +52,8 @@ public class EmployeeController {
     @PostMapping("/employees")
     public RequestResult saveEmployee(@RequestBody @ApiParam(value = "employee's information you want to create"
             , required = true) Employee employee){
-        employeeService.saveEmployee(employee);
-        System.out.println("Employee Saved Successfully");
+        Employee savedEmployee = employeeService.saveEmployee(employee);
+        log.info("Employee Saved Successfully. Id: {}", savedEmployee.getId());
         return new RequestResult(null);
     }
 
@@ -63,7 +66,7 @@ public class EmployeeController {
     @DeleteMapping("/employees/{employeeId}")
     public RequestResult deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
         employeeService.deleteEmployee(employeeId);
-        System.out.println("Employee Deleted Successfully");
+        log.info("Employee Deleted Successfully. Id: {}", employeeId);
         return new RequestResult(null);
     }
 
@@ -77,9 +80,12 @@ public class EmployeeController {
         stringBuilder.append("id = ");
         stringBuilder.append(employee.getId());
         if (emp == null) {
+            log.info("Employee to be updated not exist. Id: {}", employee.getId());
             return new RequestResult(ResultCodeEnum.UPDATE_TARGET_NOT_EXIST, stringBuilder);
         } else {
+            log.info("UpdateEmployee before: {}", emp);
             employeeService.updateEmployee(employee);
+            log.info("Employee Updated Successfully. Id: {}", emp.getId());
             return new RequestResult(null);
         }
     }
