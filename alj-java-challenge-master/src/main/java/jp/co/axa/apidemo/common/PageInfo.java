@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@ApiModel
+@ApiModel(value = "parameters for paging queries")
 @AllArgsConstructor
 public class PageInfo {
     @ApiModelProperty(value = "page number", required = true, dataType = "int")

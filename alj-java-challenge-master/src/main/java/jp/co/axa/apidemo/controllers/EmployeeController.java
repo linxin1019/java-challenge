@@ -22,8 +22,10 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @ApiOperation(value = "get all employees with pagination")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header"))
     @PostMapping("/getEmployees")
-    public RequestResult getEmployees(@RequestBody PageInfo pageInfo) {
+    public RequestResult getEmployees(@RequestBody @ApiParam(value = "page info", required = true) PageInfo pageInfo) {
         Page<Employee> employees;
         employees = employeeService.retrieveEmployees(PageRequest.of(pageInfo.getPage(), pageInfo.getSize()));
         if (employees.isEmpty()) {
@@ -35,11 +37,12 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "get the employee by Id")
-    @ApiImplicitParams(@ApiImplicitParam(name = "employeeId"
+    @ApiImplicitParams({@ApiImplicitParam(name = "employeeId"
         , value = "the Id of the employee you want to retrieve"
         , required = true
         , dataType = "long"
-        , paramType = "path"))
+        , paramType = "path")
+    , @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header")})
     @GetMapping("/employees/{employeeId}")
     public RequestResult getEmployee(@PathVariable(name="employeeId")Long employeeId) {
         Employee employee = employeeService.getEmployee(employeeId);
@@ -52,6 +55,8 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "create an employee")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header"))
     @PostMapping("/employees")
     public RequestResult saveEmployee(@RequestBody @ApiParam(value = "employee's information you want to create"
             , required = true) Employee employee){
@@ -61,11 +66,12 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "delete an employee by Id")
-    @ApiImplicitParams(@ApiImplicitParam(name = "employeeId"
+    @ApiImplicitParams({@ApiImplicitParam(name = "employeeId"
         , value = "the Id of the employee you want to delete"
         , required = true
         , dataType = "long"
-        , paramType = "path"))
+        , paramType = "path")
+     , @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header")})
     @DeleteMapping("/employees/{employeeId}")
     public RequestResult deleteEmployee(@PathVariable(name="employeeId")Long employeeId) {
         Employee emp = employeeService.getEmployee(employeeId);
@@ -83,6 +89,8 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "update an employee by Id")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header"))
     @PutMapping("/employees/{employeeId}")
     public RequestResult updateEmployee (
             @RequestBody @ApiParam(value = "employee's new information you want to update"
