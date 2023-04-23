@@ -68,21 +68,20 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "update an employee by Id")
-    @ApiImplicitParams(@ApiImplicitParam(name = "employeeId"
-        , value = "the Id of the employee you want to retrieve"
-        , required = true
-        , dataType = "long"
-        , paramType = "path"))
     @PutMapping("/employees/{employeeId}")
     public RequestResult updateEmployee (
             @RequestBody @ApiParam(value = "employee's new information you want to update"
-                    , required = true) Employee employee,
-                               @PathVariable(name="employeeId")Long employeeId){
-        Employee emp = employeeService.getEmployee(employeeId);
-        if(emp != null){
+                    , required = true) Employee employee) {
+        Employee emp = employeeService.getEmployee(employee.getId());
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("id = ");
+        stringBuilder.append(employee.getId());
+        if (emp == null) {
+            return new RequestResult(ResultCodeEnum.UPDATE_TARGET_NOT_EXIST, stringBuilder);
+        } else {
             employeeService.updateEmployee(employee);
+            return new RequestResult(null);
         }
-        return new RequestResult(null);
     }
 
 }
