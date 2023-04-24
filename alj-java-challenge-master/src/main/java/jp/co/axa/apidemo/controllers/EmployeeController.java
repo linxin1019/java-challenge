@@ -25,7 +25,7 @@ public class EmployeeController {
 
     @ApiOperation(value = "get all employees with pagination")
     @ApiImplicitParams(
-            @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header"))
+            @ApiImplicitParam(name = "token", value = "authentication token. provided when login. use '123456' for test", required = true, paramType = "header"))
     @PostMapping("/getEmployees")
     public RequestResult getEmployees(@RequestBody @ApiParam(value = "page info", required = true) PageInfo pageInfo) {
         Page<Employee> employees;
@@ -44,7 +44,7 @@ public class EmployeeController {
         , required = true
         , dataType = "long"
         , paramType = "path")
-    , @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header")})
+    , @ApiImplicitParam(name = "token", value = "authentication token. provided when login. use '123456' for test", required = true, paramType = "header")})
     @GetMapping("/employees/{employeeId}")
     public RequestResult getEmployee(@PathVariable(name="employeeId")Long employeeId) {
         // get the existed employee by id
@@ -59,7 +59,7 @@ public class EmployeeController {
 
     @ApiOperation(value = "create an employee")
     @ApiImplicitParams(
-            @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header"))
+            @ApiImplicitParam(name = "token", value = "authentication token. provided when login. use '123456' for test", required = true, paramType = "header"))
     @PostMapping("/employees")
     public RequestResult saveEmployee(@RequestBody @ApiParam(value = "employee's information you want to create"
             , required = true) Employee employee){
@@ -77,7 +77,7 @@ public class EmployeeController {
         , required = true
         , dataType = "long"
         , paramType = "path")
-     , @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header")})
+     , @ApiImplicitParam(name = "token", value = "authentication token. provided when login. use '123456' for test", required = true, paramType = "header")})
     @DeleteMapping("/employees/{employeeId}")
     public RequestResult deleteEmployee(@PathVariable(name="employeeId")Long employeeId) {
         // get the existed employee by id
@@ -97,7 +97,7 @@ public class EmployeeController {
 
     @ApiOperation(value = "update an employee by Id")
     @ApiImplicitParams(
-            @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header"))
+            @ApiImplicitParam(name = "token", value = "authentication token. provided when login. use '123456' for test", required = true, paramType = "header"))
     @PutMapping("/employees")
     public RequestResult updateEmployee (
             @RequestBody @ApiParam(value = "employee's new information you want to update"
