@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
@@ -37,6 +38,9 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     public Employee saveEmployee(Employee employee){
+        if (!StringUtils.isEmpty(employee.getId())) {
+            employee.setId(null);
+        }
         Employee savedEmployee = employeeRepository.save(employee);
         log.info("saveEmployee result: {}", savedEmployee);
         return savedEmployee;
