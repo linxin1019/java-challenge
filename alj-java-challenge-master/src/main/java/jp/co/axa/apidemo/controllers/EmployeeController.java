@@ -95,17 +95,16 @@ public class EmployeeController {
     @ApiOperation(value = "update an employee by Id")
     @ApiImplicitParams(
             @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header"))
-    @PutMapping("/employees/{employeeId}")
+    @PutMapping("/employees")
     public RequestResult updateEmployee (
             @RequestBody @ApiParam(value = "employee's new information you want to update"
                     , required = true) Employee employee) {
         Employee emp = employeeService.getEmployee(employee.getId());
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("id = ");
-        stringBuilder.append(employee.getId());
+        HashMap map = new HashMap();
+        map.put("id", employee.getId());
         if (emp == null) {
             log.info("Employee to be updated not exist. Id: {}", employee.getId());
-            return new RequestResult(ResultCodeEnum.UPDATE_TARGET_NOT_EXIST, stringBuilder);
+            return new RequestResult(ResultCodeEnum.UPDATE_TARGET_NOT_EXIST, map);
         } else {
             log.info("UpdateEmployee before: {}", emp);
             employeeService.updateEmployee(employee);
