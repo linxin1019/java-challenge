@@ -19,7 +19,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> list = new ArrayList<>();
         registry.addInterceptor(authenticationInterceptor())
-                .addPathPatterns("/api/v1**") // path pattern of which authentication should be checked
+                .addPathPatterns("/api/v1/**") // path pattern of which authentication should be checked
                 .excludePathPatterns(list);
         super.addInterceptors(registry);
     }
