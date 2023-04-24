@@ -79,12 +79,11 @@ public class EmployeeController {
     @DeleteMapping("/employees/{employeeId}")
     public RequestResult deleteEmployee(@PathVariable(name="employeeId")Long employeeId) {
         Employee emp = employeeService.getEmployee(employeeId);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("id = ");
-        stringBuilder.append(employeeId);
+        HashMap map = new HashMap();
+        map.put("id", employeeId);
         if (emp == null) {
             log.info("Employee to be deleted not exist. Id: {}", employeeId);
-            return new RequestResult(ResultCodeEnum.DELETE_TARGET_NOT_EXIST, stringBuilder);
+            return new RequestResult(ResultCodeEnum.DELETE_TARGET_NOT_EXIST, map);
         } else {
             employeeService.deleteEmployee(employeeId);
             log.info("Employee Deleted Successfully. Id: {}", employeeId);
