@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @Slf4j
 @Api(tags = "api for employees management")
 @RestController
@@ -62,7 +64,9 @@ public class EmployeeController {
             , required = true) Employee employee){
         Employee savedEmployee = employeeService.saveEmployee(employee);
         log.info("Employee Saved Successfully. Id: {}", savedEmployee.getId());
-        return new RequestResult(null);
+        HashMap map = new HashMap();
+        map.put("id", savedEmployee.getId());
+        return new RequestResult(map);
     }
 
     @ApiOperation(value = "delete an employee by Id")
