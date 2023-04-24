@@ -23,8 +23,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Autowired
     private EmployeeRepository employeeRepository;
-    @Autowired
-    private EntityManager entityManager;
 
     public Page<Employee> retrieveEmployees(PageRequest pageRequest) {
         Page<Employee> employees = employeeRepository.findAll(pageRequest);
