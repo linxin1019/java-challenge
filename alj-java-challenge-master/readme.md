@@ -1,3 +1,21 @@
+### My experience
+I have 3 years experience in Java and 2 years experience in Spring Boot.
+### What I have done
+- add a filter to log the requests
+- add an interceptor to do simple authentication check to protect the endpoints
+- improve the docs and the comments
+- fix some bugs which may cause Exception
+- change the retrieveEmployees method to a one with pagination to avoid OOM
+- enable cache to decrease the latency
+- add a global Exception handler to deal with the RuntimeException
+- add tests
+### There's still much can be done
+- use Redis instead of the default cache manager of Spring Boot
+- use Shiro or Spring Boot security to improve the authentication part
+- use Spring validation to check the request parameters
+- more test with different results
+### Thank you very much for you time!
+
 ### How to use this spring-boot project
 
 - Install packages with `mvn package`
