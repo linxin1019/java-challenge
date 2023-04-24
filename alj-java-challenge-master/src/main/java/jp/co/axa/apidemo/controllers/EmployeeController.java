@@ -47,6 +47,7 @@ public class EmployeeController {
     , @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header")})
     @GetMapping("/employees/{employeeId}")
     public RequestResult getEmployee(@PathVariable(name="employeeId")Long employeeId) {
+        // get the existed employee by id
         Employee employee = employeeService.getEmployee(employeeId);
         if (null == employee) {
             log.info("Employee not exist. Id: {}", employeeId);
@@ -64,6 +65,7 @@ public class EmployeeController {
             , required = true) Employee employee){
         Employee savedEmployee = employeeService.saveEmployee(employee);
         log.info("Employee Saved Successfully. Id: {}", savedEmployee.getId());
+        // construct the return object
         HashMap map = new HashMap();
         map.put("id", savedEmployee.getId());
         return new RequestResult(map);
@@ -78,10 +80,12 @@ public class EmployeeController {
      , @ApiImplicitParam(name = "token", value = "authentication token. provided when login", required = true, paramType = "header")})
     @DeleteMapping("/employees/{employeeId}")
     public RequestResult deleteEmployee(@PathVariable(name="employeeId")Long employeeId) {
+        // get the existed employee by id
         Employee emp = employeeService.getEmployee(employeeId);
-        HashMap map = new HashMap();
-        map.put("id", employeeId);
         if (emp == null) {
+            // construct the return object
+            HashMap map = new HashMap();
+            map.put("id", employeeId);
             log.info("Employee to be deleted not exist. Id: {}", employeeId);
             return new RequestResult(ResultCodeEnum.DELETE_TARGET_NOT_EXIST, map);
         } else {
@@ -98,10 +102,12 @@ public class EmployeeController {
     public RequestResult updateEmployee (
             @RequestBody @ApiParam(value = "employee's new information you want to update"
                     , required = true) Employee employee) {
+        // get the existed employee by id
         Employee emp = employeeService.getEmployee(employee.getId());
-        HashMap map = new HashMap();
-        map.put("id", employee.getId());
         if (emp == null) {
+            // construct the return object
+            HashMap map = new HashMap();
+            map.put("id", employee.getId());
             log.info("Employee to be updated not exist. Id: {}", employee.getId());
             return new RequestResult(ResultCodeEnum.UPDATE_TARGET_NOT_EXIST, map);
         } else {

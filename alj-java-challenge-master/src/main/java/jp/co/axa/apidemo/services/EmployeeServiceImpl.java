@@ -12,9 +12,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityManager;
 import java.util.Optional;
 
+/**
+ * for employee management
+ */
 @Slf4j
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
